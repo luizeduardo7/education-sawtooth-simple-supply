@@ -40,7 +40,7 @@ def parse_args(args):
     database_parser.add_argument(
         '--db-host',
         help='The host of the database',
-        default='localhost')
+        default='postgres')
     database_parser.add_argument(
         '--db-port',
         help='The port of the database',
@@ -69,7 +69,7 @@ def parse_args(args):
     subscribe_parser.add_argument(
         '-C', '--connect',
         help='The url of the validator to subscribe to',
-        default='tcp://localhost:4004')
+        default='tcp://validator:4004')
 
     return parser.parse_args(args)
 

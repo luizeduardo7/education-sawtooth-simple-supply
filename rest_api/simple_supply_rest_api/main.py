@@ -39,11 +39,11 @@ def parse_args(args):
     parser.add_argument(
         '-B', '--bind',
         help='identify host and port for api to run on',
-        default='localhost:8000')
+        default='simple-supply-rest-api:8000')
     parser.add_argument(
         '-C', '--connect',
         help='specify URL to connect to a running validator',
-        default='tcp://localhost:4004')
+        default='tcp://validator:4004')
     parser.add_argument(
         '-t', '--timeout',
         help='set time (in seconds) to wait for a validator response',
@@ -55,7 +55,7 @@ def parse_args(args):
     parser.add_argument(
         '--db-host',
         help='The host of the database',
-        default='localhost')
+        default='postgres')
     parser.add_argument(
         '--db-port',
         help='The port of the database',

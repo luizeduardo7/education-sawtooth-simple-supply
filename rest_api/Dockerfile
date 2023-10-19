@@ -30,7 +30,7 @@ RUN apt-get install -y --allow-unauthenticated -q python3-grpcio-tools \
 RUN pip3 install --upgrade pip
 
 RUN pip3 install \
-    aiohttp \
+    aiohttp==3.0.8 \
     aiopg \
     bcrypt \
     itsdangerous \
