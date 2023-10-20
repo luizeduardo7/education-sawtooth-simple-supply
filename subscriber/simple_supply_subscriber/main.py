@@ -59,9 +59,9 @@ def parse_args(args):
         default=0,
         help='Increase output sent to stderr')
 
-    subparsers.add_parser(
-        'init',
-        parents=[database_parser])
+    # subparsers.add_parser(
+    #     'init',
+    #     parents=[database_parser])
 
     subscribe_parser = subparsers.add_parser(
         'subscribe',
@@ -86,7 +86,7 @@ def init_logger(level):
 
 
 def do_subscribe(opts):
-    LOGGER.info('Starting subscriber...')
+    print('Starting subscriber...')
     try:
         dsn = 'dbname={} user={} password={} host={} port={}'.format(
             opts.db_name,
@@ -97,6 +97,7 @@ def do_subscribe(opts):
 
         database = Database(dsn)
         database.connect()
+        database.create_tables()
         subscriber = Subscriber(opts.connect)
         subscriber.add_handler(get_events_handler(database))
         known_blocks = database.fetch_last_known_blocks(KNOWN_COUNT)
@@ -107,7 +108,7 @@ def do_subscribe(opts):
         sys.exit(0)
 
     except Exception as err:  # pylint: disable=broad-except
-        LOGGER.exception(err)
+        print(err)
         sys.exit(1)
 
     finally:
@@ -117,11 +118,11 @@ def do_subscribe(opts):
         except UnboundLocalError:
             pass
 
-    LOGGER.info('Subscriber shut down successfully')
+    print('Subscriber shut down successfully')
 
 
 def do_init(opts):
-    LOGGER.info('Initializing subscriber...')
+    print('Initializing subscriber...')
     try:
         dsn = 'dbname={} user={} password={} host={} port={}'.format(
             opts.db_name,
@@ -134,19 +135,21 @@ def do_init(opts):
         database.create_tables()
 
     except Exception as err:  # pylint: disable=broad-except
-        LOGGER.exception('Unable to initialize subscriber database: %s', err)
+        print('Unable to initialize subscriber database: %s', err)
 
     finally:
         database.disconnect()
+        
 
 
 def main():
+    print('OLA')
     opts = parse_args(sys.argv[1:])
     init_logger(opts.verbose)
-
+    print(opts)
     if opts.command == 'subscribe':
         do_subscribe(opts)
     elif opts.command == 'init':
         do_init(opts)
     else:
-        LOGGER.exception('Invalid command: "%s"', opts.command)
+        print('Invalid command: "%s"', opts.command)

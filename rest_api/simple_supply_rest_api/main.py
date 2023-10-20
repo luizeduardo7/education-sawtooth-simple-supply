@@ -104,7 +104,7 @@ def start_rest_api(host, port, messenger, database):
         '/records/{record_id}/transfer', handler.transfer_record)
     app.router.add_post('/records/{record_id}/update', handler.update_record)
 
-    LOGGER.info('Starting Simple Supply REST API on %s:%s', host, port)
+    print('Starting Simple Supply REST API on %s:%s', host, port)
     web.run_app(
         app,
         host=host,
@@ -119,7 +119,7 @@ def main():
 
     try:
         opts = parse_args(sys.argv[1:])
-
+        print(opts)
         init_console_logging(verbose_level=opts.verbose)
 
         validator_url = opts.connect
@@ -145,7 +145,7 @@ def main():
 
         start_rest_api(host, port, messenger, database)
     except Exception as err:  # pylint: disable=broad-except
-        LOGGER.exception(err)
+        print(err)
         sys.exit(1)
     finally:
         database.disconnect()
