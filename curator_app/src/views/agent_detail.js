@@ -40,8 +40,8 @@ const AgentDetailPage = {
     return [
       layout.title(_.get(vnode.state, 'agent.name', '')),
       m('.container',
-        layout.row(layout.staticField('Public Key', publicKey)),
-        layout.row(layout.staticField('Registered', timestamp)))
+        layout.row(layout.staticField('Chave Pública', publicKey)),
+        layout.row(layout.staticField('Registrado', timestamp)))
     ]
   }
 }

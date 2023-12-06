@@ -72,9 +72,9 @@ const ArtworkDetailPage = {
     return [
       layout.title(recordId),
       m('.container',
-        layout.row(layout.staticField('Owner', owner)),
-        layout.row(layout.staticField('Created', created)),
-        layout.row(layout.staticField('Updated', updated))),
+        layout.row(layout.staticField('Proprietário', owner)),
+        layout.row(layout.staticField('Criado', created)),
+        layout.row(layout.staticField('Atualizado', updated))),
       m(MapWidget, {
         coordinates: coordinates
       }),
@@ -82,7 +82,7 @@ const ArtworkDetailPage = {
         (owner == api.getPublicKey())
         ? m('.update-form', [
           m('form', { onsubmit: updateSubmitter(vnode.state, recordId) },
-          m('legend', 'Update Location'),
+          m('legend', 'Atualizar Localização'),
           layout.row([
             forms.group('Latitude', forms.field(setter('latitude'), {
               type: 'number',
@@ -101,16 +101,16 @@ const ArtworkDetailPage = {
             m('.row.justify-content-end.align-items-end',
               m('col-2',
                 m('button.btn.btn-primary',
-                  'Update Location')))))
+                  'Atualizar Localização')))))
           ])
         : ''),
       layout.row(
         (owner == api.getPublicKey())
         ? m('transfer-form', [
           m('form', { onsubmit: transferSubmitter(vnode.state, recordId) },
-          m('legend', 'Transfer Ownership'),
+          m('legend', 'Transferir Propriedade'),
           layout.row([
-            forms.group('Public Key', forms.field(setter('receiving_agent'), {
+            forms.group('Chave Pública', forms.field(setter('receiving_agent'), {
               type: 'string'
             }))
           ]),
@@ -118,7 +118,7 @@ const ArtworkDetailPage = {
             m('.row.justify-content-end.align-items-end',
               m('col-2',
                 m('button.btn.btn-primary',
-                  'Transfer Ownership')))))
+                  'Transferir Propriedade')))))
           ])
         : '')
     ]

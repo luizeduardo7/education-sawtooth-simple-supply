@@ -35,8 +35,8 @@ const AgentList = {
       m('.agent-list',
         m(Table, {
           headers: [
-            'Name',
-            'Key'
+            'Nome',
+            'Chave'
           ],
           rows: vnode.state.agents
             .map((agent) => [
@@ -45,7 +45,7 @@ const AgentList = {
                 agent.name),
               agent.public_key,
             ]),
-          noRowsText: 'No agents found'
+          noRowsText: 'Sem usuários encontrados'
         })
       )
     ]

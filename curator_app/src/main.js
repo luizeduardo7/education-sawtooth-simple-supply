@@ -48,25 +48,25 @@ const Layout = {
 
 const loggedInNav = () => {
   const links = [
-    ['/register', 'Register Artwork'],
-    ['/artworks', 'View Artwork Registry'],
-    ['/agents', 'View Agents']
+    ['/register', 'Registrar Sensor'],
+    ['/artworks', 'Ver Registro de Sensores'],
+    ['/agents', 'Ver Usuários']
   ]
   return m(navigation.Navbar, {}, [
     navigation.links(links),
-    navigation.link('/profile', 'Profile'),
-    navigation.button('/logout', 'Logout')
+    navigation.link('/profile', 'Perfil'),
+    navigation.button('/logout', 'Sair')
   ])
 }
 
 const loggedOutNav = () => {
   const links = [
-    ['/artworks', 'View Artwork Registry'],
-    ['/agents', 'View Agents']
+    ['/artworks', 'Ver Registro de Sensores'],
+    ['/agents', 'Ver Usuários']
   ]
   return m(navigation.Navbar, {}, [
     navigation.links(links),
-    navigation.button('/login', 'Log in/Sign up')
+    navigation.button('/login', 'Log in/Criar conta')
   ])
 }
 

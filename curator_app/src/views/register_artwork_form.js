@@ -44,8 +44,8 @@ const RegisterArtworkForm = {
     const setter = forms.stateSetter(vnode.state)
     return m('.register-form', [
       m('form', { onsubmit: recordSubmitter(vnode.state) },
-      m('legend', 'Register Artwork'),
-      forms.textInput(setter('record_id'), 'Record ID'),
+      m('legend', 'Registrar Sensor'),
+      forms.textInput(setter('record_id'), 'ID do Sensor'),
       layout.row([
         forms.group('Latitude', forms.field(setter('latitude'), {
           type: 'number',
@@ -64,7 +64,7 @@ const RegisterArtworkForm = {
         m('.row.justify-content-end.align-items-end',
           m('col-2',
             m('button.btn.btn-primary',
-              'Register Artwork')))))
+              'Registrar Sensor')))))
     ])
   }
 }
