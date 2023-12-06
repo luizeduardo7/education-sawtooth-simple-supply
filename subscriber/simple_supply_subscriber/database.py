@@ -49,6 +49,16 @@ CREATE TABLE IF NOT EXISTS records (
 );
 """
 
+# CREATE_SENSOR_STMTS = """
+# CREATE TABLE IF NOT EXISTS sensors (
+#     id               bigserial PRIMARY KEY,
+#     sensor_id        varchar,
+#     timestamp        bigint,
+#     start_block_num  bigint,
+#     end_block_num    bigint
+# );
+# """
+
 
 CREATE_RECORD_LOCATION_STMTS = """
 CREATE TABLE IF NOT EXISTS record_locations (
@@ -61,6 +71,18 @@ CREATE TABLE IF NOT EXISTS record_locations (
     end_block_num    bigint
 );
 """
+
+# CREATE_SENSOR_LOCATION_STMTS = """
+# CREATE TABLE IF NOT EXISTS sensor_locations (
+#     id               bigserial PRIMARY KEY,
+#     sensor_id        varchar,
+#     latitude         bigint,
+#     longitude        bigint,
+#     timestamp        bigint,
+#     start_block_num  bigint,
+#     end_block_num    bigint
+# );
+# """
 
 
 CREATE_RECORD_OWNER_STMTS = """
@@ -85,6 +107,17 @@ CREATE TABLE IF NOT EXISTS agents (
     end_block_num    bigint
 );
 """
+
+# CREATE_USER_STMTS = """
+# CREATE TABLE IF NOT EXISTS users (
+#     id               bigserial PRIMARY KEY,
+#     public_key       varchar,
+#     name             varchar,
+#     timestamp        bigint,
+#     start_block_num  bigint,
+#     end_block_num    bigint
+# );
+# """
 
 
 class Database(object):
