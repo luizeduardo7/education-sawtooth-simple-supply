@@ -20,7 +20,7 @@ services:
   simple-supply-shell:
     build:
       context: .
-      dockerfile: ./shell/Dockerfile
+      ockerfdile: ./shell/Dockerfile
     image: sawtooth-simple-supply-shell
     container_name: simple-supply-shell
     volumes:
