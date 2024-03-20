@@ -39,11 +39,11 @@ def parse_args(args):
     parser.add_argument(
         '-B', '--bind',
         help='identify host and port for api to run on',
-        default='localhost:8000')
+        default='simple-supply-rest-api:8000')
     parser.add_argument(
         '-C', '--connect',
         help='specify URL to connect to a running validator',
-        default='tcp://localhost:4004')
+        default='tcp://validator:4004')
     parser.add_argument(
         '-t', '--timeout',
         help='set time (in seconds) to wait for a validator response',
@@ -55,7 +55,7 @@ def parse_args(args):
     parser.add_argument(
         '--db-host',
         help='The host of the database',
-        default='localhost')
+        default='postgres')
     parser.add_argument(
         '--db-port',
         help='The port of the database',
@@ -104,7 +104,7 @@ def start_rest_api(host, port, messenger, database):
         '/records/{record_id}/transfer', handler.transfer_record)
     app.router.add_post('/records/{record_id}/update', handler.update_record)
 
-    LOGGER.info('Starting Simple Supply REST API on %s:%s', host, port)
+    print('Starting Simple Supply REST API on %s:%s', host, port)
     web.run_app(
         app,
         host=host,
@@ -119,7 +119,7 @@ def main():
 
     try:
         opts = parse_args(sys.argv[1:])
-
+        print(opts)
         init_console_logging(verbose_level=opts.verbose)
 
         validator_url = opts.connect
@@ -145,7 +145,7 @@ def main():
 
         start_rest_api(host, port, messenger, database)
     except Exception as err:  # pylint: disable=broad-except
-        LOGGER.exception(err)
+        print(err)
         sys.exit(1)
     finally:
         database.disconnect()

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+message User{
+    ​// Chave pública única do usuário
+    string​​ public_key = 1​;​
+
+    ​// Uma string com o nome do usuário
+    ​string​ name = ​2​;
+
+    ​// Aproximadamente quando o Usuário foi registrado, como um carimbo de data/hora // Unix UTC
+    ​uint64​ timestamp = ​3​;
+}
+
+message​ UserContainer {
+    repeated​​ User entries = 1​;​
+}
+
+

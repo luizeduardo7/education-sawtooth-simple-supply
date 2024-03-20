@@ -1,0 +1,46 @@
+syntax = "proto3"
+
+message PayloadData{
+    ​enum​ ​Action​ {
+        CREATE_USER = ​0​;
+        CREATE_SENSOR = ​1​;
+        UPDATE_SENSOR = ​2​; // Atualizar o registro da medida do consumo
+    }
+
+    ​// Se o payload contém uma ação de criar usuário, criar sensor // ou atualizar sensor.
+    Action action = ​1​;
+
+    ​// O manipulador de transação lerá apenas um desses campos
+    // de acordo com a ação
+    CreateUserAction create_user = ​2​;
+    CreateSensorAction create_sensor = 3​;​
+    UpdateSensorAction update_sensor = 4​;​
+
+
+    ​// Aproximadamente quando a transação foi enviada, como um carimbo de
+    // data/hora Unix UTC 
+    uint64 timestamp = ​6​;
+}
+
+message CreateUserAction {
+    ​// Um nome legível por humanos que identifica o novo usuário
+    ​string​ name = ​1​;
+}
+
+message CreateSensorAction {
+    ​// A chave natural definida pelo usuário que identifica o objeto // no mundo real (por exemplo, um número de série)
+    ​string​ sensor_id = ​1​;
+
+    ​// Coordenadas são esperadas em graus
+    sint64 latitude = 2​;​
+    sint64 longitude = 3​;​
+}
+
+message UpdateSensorAction {
+    ​// O id do sensor que está sendo atualizado
+    string​​ sensor_id = 1​;​
+
+    ​// Valor da medição
+    double measurement_value = 2;
+}
+

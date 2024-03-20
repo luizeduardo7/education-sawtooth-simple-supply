@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+message Sensor {
+
+    message User {
+        ​// Chave pública do usuário que detém o sensor ​string​ user_id = ​1​;
+
+        ​// Aproximadamente quando o proprietário foi atualizado, como um
+        // carimbo de data/hora Unix UTC
+        ​uint64​ timestamp = ​2​;
+    }
+
+    message Location {
+        ​// Coordenadas são expressas em graus
+        sint64 latitude = 1​;​
+        sint64 longitude = 2​;​
+
+        ​// Aproximadamente quando o local foi atualizado, como Unix UTC timestamp ​uint64​ timestamp = ​3​;
+    }
+
+    message Measurement{
+        ​// Valor da medição
+        double value = 1​;​​
+
+        ​// Aproximadamente quando ocorreu a medição, como Unix UTC timestamp ​uint64​ timestamp = 2;
+    }
+
+    ​// A chave definida pelo usuário que identifica o objeto no
+    // mundo real (por exemplo, um número de série)
+    ​string​ sensor_id = ​1​;
+
+    ​// Ordena históricos do mais antigo para o mais recente por timestamp 
+    repeated User users = 2​;​
+    repeated Location locations = ​3​;
+    repeated Measurement measurements = 2; 
+}
+
+message​ SensorContainer {
+    repeated​​ Sensor entries = 1​;​
+}
+

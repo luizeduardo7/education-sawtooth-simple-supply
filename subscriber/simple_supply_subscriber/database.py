@@ -49,6 +49,16 @@ CREATE TABLE IF NOT EXISTS records (
 );
 """
 
+# CREATE_SENSOR_STMTS = """
+# CREATE TABLE IF NOT EXISTS sensors (
+#     id               bigserial PRIMARY KEY,
+#     sensor_id        varchar,
+#     timestamp        bigint,
+#     start_block_num  bigint,
+#     end_block_num    bigint
+# );
+# """
+
 
 CREATE_RECORD_LOCATION_STMTS = """
 CREATE TABLE IF NOT EXISTS record_locations (
@@ -61,6 +71,18 @@ CREATE TABLE IF NOT EXISTS record_locations (
     end_block_num    bigint
 );
 """
+
+# CREATE_SENSOR_LOCATION_STMTS = """
+# CREATE TABLE IF NOT EXISTS sensor_locations (
+#     id               bigserial PRIMARY KEY,
+#     sensor_id        varchar,
+#     latitude         bigint,
+#     longitude        bigint,
+#     timestamp        bigint,
+#     start_block_num  bigint,
+#     end_block_num    bigint
+# );
+# """
 
 
 CREATE_RECORD_OWNER_STMTS = """
@@ -86,6 +108,17 @@ CREATE TABLE IF NOT EXISTS agents (
 );
 """
 
+# CREATE_USER_STMTS = """
+# CREATE TABLE IF NOT EXISTS users (
+#     id               bigserial PRIMARY KEY,
+#     public_key       varchar,
+#     name             varchar,
+#     timestamp        bigint,
+#     start_block_num  bigint,
+#     end_block_num    bigint
+# );
+# """
+
 
 class Database(object):
     """Simple object for managing a connection to a postgres database
@@ -102,17 +135,17 @@ class Database(object):
             initial_delay (int): Number of seconds wait between reconnects
             backoff (int): Multiplies the delay after each retry
         """
-        LOGGER.info('Connecting to database')
+        print('Connecting to database')
 
         delay = initial_delay
         for attempt in range(retries):
             try:
                 self._conn = psycopg2.connect(self._dsn)
-                LOGGER.info('Successfully connected to database')
+                print('Successfully connected to database')
                 return
 
             except psycopg2.OperationalError:
-                LOGGER.debug(
+                print(
                     'Connection failed.'
                     ' Retrying connection (%s retries remaining)',
                     retries - attempt)
@@ -120,28 +153,28 @@ class Database(object):
                 delay *= backoff
 
         self._conn = psycopg2.connect(self._dsn)
-        LOGGER.info('Successfully connected to database')
+        print('Successfully connected to database')
 
     def create_tables(self):
         """Creates the Simple Supply tables
         """
         with self._conn.cursor() as cursor:
-            LOGGER.debug('Creating table: blocks')
+            print('Creating table: blocks')
             cursor.execute(CREATE_BLOCK_STMTS)
 
-            LOGGER.debug('Creating table: auth')
+            print('Creating table: auth')
             cursor.execute(CREATE_AUTH_STMTS)
 
-            LOGGER.debug('Creating table: records')
+            print('Creating table: records')
             cursor.execute(CREATE_RECORD_STMTS)
 
-            LOGGER.debug('Creating table: record_locations')
+            print('Creating table: record_locations')
             cursor.execute(CREATE_RECORD_LOCATION_STMTS)
 
-            LOGGER.debug('Creating table: record_owners')
+            print('Creating table: record_owners')
             cursor.execute(CREATE_RECORD_OWNER_STMTS)
 
-            LOGGER.debug('Creating table: agents')
+            print('Creating table: agents')
             cursor.execute(CREATE_AGENT_STMTS)
 
         self._conn.commit()
@@ -149,7 +182,7 @@ class Database(object):
     def disconnect(self):
         """Closes the connection to the database
         """
-        LOGGER.info('Disconnecting from database')
+        print('Disconnecting from database')
         if self._conn is not None:
             self._conn.close()
 

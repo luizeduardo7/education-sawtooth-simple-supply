@@ -39,7 +39,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x -o /tmp/nodesource_setup.sh &
 RUN pip3 install --upgrade pip
 
 RUN pip3 install \
-    aiohttp \
+    aiohttp==3.0.8 \
     aiopg \
     bcrypt \
     grpcio-tools \

@@ -41,7 +41,7 @@ class Subscriber(object):
     subscribing, and each will be called on each delta event received.
     """
     def __init__(self, validator_url):
-        LOGGER.info('Connecting to validator: %s', validator_url)
+        print('Connecting to validator: %s', validator_url)
         self._stream = Stream(validator_url)
         self._event_handlers = []
         self._is_active = False
@@ -65,7 +65,7 @@ class Subscriber(object):
             known_ids = [NULL_BLOCK_ID]
 
         self._stream.wait_for_ready()
-        LOGGER.debug('Subscribing to state delta events')
+        print('Subscribing to state delta events')
 
         block_sub = EventSubscription(event_type='sawtooth/block-commit')
         delta_sub = EventSubscription(
@@ -97,7 +97,7 @@ class Subscriber(object):
 
         self._is_active = True
 
-        LOGGER.debug('Successfully subscribed to state delta events')
+        print('Successfully subscribed to state delta events')
         while self._is_active:
             message_future = self._stream.receive()
 
@@ -112,7 +112,7 @@ class Subscriber(object):
         """
         self._is_active = False
 
-        LOGGER.debug('Unsubscribing from state delta events')
+        print('Unsubscribing from state delta events')
         request = ClientEventsUnsubscribeRequest()
         response_future = self._stream.send(
             Message.CLIENT_EVENTS_UNSUBSCRIBE_REQUEST,
@@ -121,7 +121,7 @@ class Subscriber(object):
         response.ParseFromString(response_future.result().content)
 
         if response.status != ClientEventsUnsubscribeResponse.OK:
-            LOGGER.warning(
+            print(
                 'Failed to unsubscribe with status: %s',
                 ClientEventsUnsubscribeResponse.Status.Name(response.status))
 

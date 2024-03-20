@@ -45,7 +45,7 @@ def _handle_events(database, events):
             _apply_state_changes(database, events, block_num, block_id)
         database.commit()
     except psycopg2.DatabaseError as err:
-        LOGGER.exception('Unable to handle event: %s', err)
+        print('Unable to handle event: %s', err)
         database.rollback()
 
 
@@ -58,7 +58,7 @@ def _parse_new_block(events):
 
     block_num = int(next(a.value for a in block_attr if a.key == 'block_num'))
     block_id = next(a.value for a in block_attr if a.key == 'block_id')
-    LOGGER.debug('Handling deltas for block: %s', block_id)
+    print('Handling deltas for block: %s', block_id)
     return block_num, block_id
 
 
@@ -67,7 +67,7 @@ def _resolve_if_forked(database, block_num, block_id):
     if existing_block is not None:
         if existing_block['block_id'] == block_id:
             return True  # this block is a duplicate
-        LOGGER.info(
+        print(
             'Fork detected: replacing %s (%s) with %s (%s)',
             existing_block['block_id'][:8],
             existing_block['block_num'],
@@ -87,7 +87,7 @@ def _apply_state_changes(database, events, block_num, block_id):
         elif data_type == AddressSpace.RECORD:
             _apply_record_change(database, block_num, resources)
         else:
-            LOGGER.warning('Unsupported data type: %s', data_type)
+            print('Unsupported data type: %s', data_type)
 
 
 def _parse_state_changes(events):

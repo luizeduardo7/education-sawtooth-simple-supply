@@ -65,11 +65,7 @@ services:
       - simple-supply-shell
     command: |
       bash -c "
-        simple-supply-rest-api \
-          -B simple-supply-rest-api:8000 \
-          -C validator:4004 \
-          --db-host postgres \
-          -vv
+        simple-supply-rest-api --db-host postgres -vv -B simple-supply-rest-api:8000 -C validator:4004
       "
 
   simple-supply-subscriber:
@@ -85,70 +81,56 @@ services:
       - postgres
     command: |
       bash -c "
-        simple-supply-subscriber init \
-          --db-host postgres \
-          -vv
-        sleep 3
-        simple-supply-subscriber subscribe \
-          --db-host postgres \
-          -C tcp://validator:4004 \
-          -vv
+        simple-supply-subscriber subscribe --db-host postgres -vv -C tcp://validator:4004
       "
 
   settings-tp:
     image: hyperledger/sawtooth-settings-tp:1.2
-    container_name: sawtooth-settings-tp
+    container_name: sawtooth-settings-tp-default
     depends_on:
       - validator
     entrypoint: settings-tp -vv -C tcp://validator:4004
 
   rest-api:
     image: hyperledger/sawtooth-rest-api:1.2
-    container_name: sawtooth-rest-api
-    expose:
-      - 8008
+    container_name: sawtooth-rest-api-default
     ports:
-      - '8008:8008'
+      - "8008:8008"
     depends_on:
       - validator
-    entrypoint: sawtooth-rest-api -vv -C tcp://validator:4004 --bind rest-api:8008
+    entrypoint: sawtooth-rest-api -C tcp://validator:4004 --bind rest-api:8008
 
   validator:
     image: hyperledger/sawtooth-validator:1.2
-    container_name: sawtooth-validator
+    container_name: sawtooth-validator-default
     expose:
       - 4004
     ports:
-      - '4004:4004'
-    command: |
-      bash -c "
-        if [ ! -f /etc/sawtooth/keys/validator.priv ]; then
-          sawadm keygen
-          sawtooth keygen my_key
-          sawset genesis -k /root/.sawtooth/keys/my_key.priv
-          sawset proposal create -k /root/.sawtooth/keys/my_key.priv \
-            sawtooth.consensus.algorithm.name=Devmode \
-            sawtooth.consensus.algorithm.version=0.1 \
-            -o config.batch
-          sawadm genesis config-genesis.batch config.batch
-        fi;
+      - "4004:4004"
+    # start the validator with an empty genesis batch
+    entrypoint: "bash -c \"\
+        sawadm keygen && \
+        sawtooth keygen my_key && \
+        sawset genesis -k /root/.sawtooth/keys/my_key.priv && \
+        sawset proposal create \
+          -k /root/.sawtooth/keys/my_key.priv \
+          sawtooth.consensus.algorithm.name=Devmode \
+          sawtooth.consensus.algorithm.version=0.1 \
+          -o config.batch && \
+        sawadm genesis config-genesis.batch config.batch && \
         sawtooth-validator -vv \
           --endpoint tcp://validator:8800 \
           --bind component:tcp://eth0:4004 \
           --bind network:tcp://eth0:8800 \
-          --bind consensus:tcp://eth0:5050
-      "
+          --bind consensus:tcp://eth0:5050 \
+        \""
 
   devmode-engine:
     image: hyperledger/sawtooth-devmode-engine-rust:1.2
-    expose:
-      - 5050
-    ports:
-      - '5050:5050'
     container_name: sawtooth-devmode-engine-rust-default
     depends_on:
       - validator
-    entrypoint: devmode-engine-rust --connect tcp://validator:5050
+    entrypoint: devmode-engine-rust -C tcp://validator:5050
 
   postgres:
     image: postgres:alpine

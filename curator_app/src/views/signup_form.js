@@ -41,19 +41,19 @@ const SignupForm = {
 
     return m('.signup-form', [
       m('form', { onsubmit: agentSubmitter(vnode.state) },
-      m('legend', 'Create Agent'),
-      forms.textInput(setter('name'), 'Name'),
-      forms.passwordInput(setter('password'), 'Password'),
+      m('legend', 'Criar Usuário'),
+      forms.textInput(setter('name'), 'Nome'),
+      forms.passwordInput(setter('password'), 'Senha'),
       m('.container.text-center',
-        'Or you can ',
+        'Ou você pode ',
         m('a[href="/login"]',
           { oncreate: m.route.link },
-          'login as an existing Agent')),
+          'logar como um Usuário existente')),
       m('.form-group',
         m('.row.justify-content-end.align-items-end',
           m('col-2',
             m('button.btn.btn-primary',
-              'Create Agent')))))
+              'Criar Usuário')))))
     ])
   }}
 

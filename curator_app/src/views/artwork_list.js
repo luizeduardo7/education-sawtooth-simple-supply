@@ -43,7 +43,7 @@ const ArtworkList = {
                 { oncreate: m.route.link },
                 record.record_id)
             ]),
-          noRowsText: 'No records found'
+          noRowsText: 'Sem sensores encontrados'
         })
       )
     ]

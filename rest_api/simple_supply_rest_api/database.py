@@ -44,18 +44,18 @@ class Database(object):
             initial_delay (int): Number of seconds wait between reconnects
             backoff (int): Multiplies the delay after each retry
         """
-        LOGGER.info('Connecting to database')
+        print('Connecting to database')
 
         delay = initial_delay
         for attempt in range(retries):
             try:
                 self._conn = await aiopg.connect(
                     dsn=self._dsn, loop=self._loop, echo=True)
-                LOGGER.info('Successfully connected to database')
+                print('Successfully connected to database')
                 return
 
             except psycopg2.OperationalError:
-                LOGGER.debug(
+                print(
                     'Connection failed.'
                     ' Retrying connection (%s retries remaining)',
                     retries - attempt)
@@ -64,7 +64,7 @@ class Database(object):
 
         self._conn = await aiopg.connect(
             dsn=self._dsn, loop=self._loop, echo=True)
-        LOGGER.info('Successfully connected to database')
+        print('Successfully connected to database')
 
     def disconnect(self):
         """Closes connection to the database
