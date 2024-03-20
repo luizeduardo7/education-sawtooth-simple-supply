@@ -7,7 +7,7 @@ users to transfer assets and track them as they move through a supply chain.
 Sawtooth Simple Supply is built on Hyperledger Sawtooth, an enterprise
 blockchain platform. To learn more about Hyperledger Sawtooth, see the
 [splinter-sawtooth-core-repository](https://github.com/splintercommunity/sawtooth-core) or [sawtooth-core repository](https://github.com/hyperledger/sawtooth-core)(Archived) and the
-[Spliter Sawtooth documentation](https://sawtooth.splinter.dev/) or [Hyperledger Sawtooth documentation](https://sawtooth.hyperledger.org/docs/)(Archived).
+[Splinter Sawtooth documentation](https://sawtooth.splinter.dev/) or [Hyperledger Sawtooth documentation](https://sawtooth.hyperledger.org/docs/)(Archived).
 
 The Simple Supply components in this repository include:
 
